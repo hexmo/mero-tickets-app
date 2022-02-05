@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, ScrollView, View } from "react-native";
 import { Card, Divider } from "react-native-paper";
+import Menu from "../../components/Menu";
 
 export default function Home() {
+  const [destination, setDestination] = React.useState({
+    start: "Kathmandu",
+    end: "Pokhara",
+  });
+
   return (
     <ScrollView>
       <Text style={styles.homeHeader}>{`Where do you want \n to go?`}</Text>
@@ -10,12 +16,15 @@ export default function Home() {
       <Card style={styles.card}>
         <Card.Content>
           <Text style={styles.miniText}>From</Text>
+          <Text style={styles.journey}>{destination.start}</Text>
 
-          <Divider />
+          <Divider style={{ marginVertical: 10 }} />
 
           <Text style={styles.miniText}>To</Text>
+          <Text style={styles.journey}>{destination.end}</Text>
         </Card.Content>
       </Card>
+      <Menu />
     </ScrollView>
   );
 }
@@ -36,5 +45,11 @@ const styles = StyleSheet.create({
   miniText: {
     fontFamily: "Lato_400Regular",
     color: "#BDBEC3",
+  },
+  journey: {
+    fontSize: 24,
+    fontFamily: "Lato_700Bold",
+    color: "#23252C",
+    marginTop: 5,
   },
 });
