@@ -1,12 +1,20 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, ScrollView } from "react-native";
 
 export default function Home() {
   return (
-    <View>
-      <Text>I am in Home</Text>
-    </View>
+    <ScrollView>
+      <Text style={styles.homeHeader}>{`Where do you want \n to go?`}</Text>
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  homeHeader: {
+    marginTop: 10,
+    marginHorizontal: 20,
+    fontSize: 36,
+    fontFamily: "Lato_900Black",
+    color: "#343434",
+  },
+});
