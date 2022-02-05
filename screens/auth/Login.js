@@ -1,21 +1,17 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
-import { TextInput, Button } from 'react-native-paper';
+import React from "react";
+import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import { TextInput, Button } from "react-native-paper";
 
-import logo from '../assets/logo.png';
+import logo from "../../assets/logo.png";
 
 const Login = ({ navigation }) => {
-
   const handleSignInPressed = () => {
-    navigation.navigate('Home');
+    navigation.navigate("Main");
   };
 
   return (
     <View style={styles.main}>
-      <Image
-        source={logo}
-        style={styles.logo}
-      />
+      <Image source={logo} style={styles.logo} />
 
       <TextInput
         style={styles.input}
@@ -34,11 +30,13 @@ const Login = ({ navigation }) => {
 
       <Button
         style={styles.button}
-        mode='contained'
+        mode="contained"
         onPress={handleSignInPressed}
-      >Sign In</Button>
+      >
+        Sign In
+      </Button>
 
-      <Pressable onPress={() => navigation.navigate('SignUp')}>
+      <Pressable onPress={() => navigation.navigate("SignUp")}>
         <Text style={styles.text}>Do not have account? Sign Up.</Text>
       </Pressable>
     </View>
@@ -51,25 +49,25 @@ const styles = StyleSheet.create({
   main: {
     padding: 10,
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: "center",
   },
   logo: {
-    width: 120,
-    height: 120,
+    width: 100,
+    height: 100,
     borderRadius: 5,
     marginBottom: 30,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   input: {
     marginVertical: 5,
   },
   button: {
     marginVertical: 5,
-    paddingVertical: 10
+    paddingVertical: 10,
   },
   text: {
     marginTop: 20,
-    textAlign: 'center',
-    color: '#e44c34'
-  }
+    textAlign: "center",
+    color: "#e44c34",
+  },
 });

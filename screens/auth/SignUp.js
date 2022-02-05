@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, Alert, Pressable } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 
-import logo from '../assets/logo.png';
+import logo from '../../assets/logo.png';
 
 const SignUp = ({ navigation }) => {
 
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   logo: {
-    width: 120,
-    height: 120,
+    width: 100,
+    height: 100,
     borderRadius: 5,
     marginBottom: 30,
     alignSelf: 'center',
