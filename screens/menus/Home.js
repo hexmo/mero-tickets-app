@@ -36,11 +36,11 @@ export default function Home() {
   const hideDatePicker = () => setDatePickerVisibility(false);
 
   const handleConfirm = (date) => {
+    hideDatePicker();
     setDestination({
       ...destination,
       date: getFormattedDate(date),
     });
-    hideDatePicker();
   };
 
   return (
@@ -90,6 +90,14 @@ export default function Home() {
             />
           </View>
 
+          <Button
+            style={styles.continueButton}
+            mode="contained"
+            uppercase={false}
+            labelStyle={{ fontSize: 20, fontFamily: "Lato_700Bold" }}
+          >
+            Continue
+          </Button>
         </Card.Content>
       </Card>
     </ScrollView>
@@ -121,6 +129,12 @@ const styles = StyleSheet.create({
   },
   selector: {
     backgroundColor: "#fff",
+  },
+  continueButton: {
+    backgroundColor: "#e44c34",
+    marginTop: 30,
+    borderRadius: 10,
+    padding: 5,
   },
 });
 
