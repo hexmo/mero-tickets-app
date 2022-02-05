@@ -13,7 +13,11 @@ const Tab = createBottomTabNavigator();
 const Main = () => {
   return (
     <Tab.Navigator
-      screenOptions={{ headerShown: false, tabBarActiveTintColor: "#e44c34" }}
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#e44c34",
+        tabBarStyle: styles.navigation,
+      }}
     >
       <Tab.Screen
         name="Home"
@@ -60,4 +64,11 @@ const Main = () => {
 
 export default Main;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  navigation: {
+    position: "absolute",
+    borderTopStartRadius: 15,
+    borderTopEndRadius: 15,
+    elevation: 10,
+  },
+});
