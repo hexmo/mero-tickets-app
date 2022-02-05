@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, ScrollView, View } from "react-native";
-import { Card, Divider } from "react-native-paper";
+import { StyleSheet, Text, ScrollView, View, Pressable } from "react-native";
+import { Card, Divider, Button } from "react-native-paper";
 import ModalSelector from "react-native-modal-selector";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export default function Home() {
   let index = 0;
+
+  let tomorrowsDate = new Date();
+  tomorrowsDate.setDate(tomorrowsDate.getDate() + 1);
+
   const locations = [
     { key: index++, label: "Kathmandu" },
     { key: index++, label: "Pokhara" },
@@ -23,8 +28,20 @@ export default function Home() {
   const [destination, setDestination] = React.useState({
     start: "Kathmandu",
     end: "Pokhara",
-    date: "",
+    date: getFormattedDate(tomorrowsDate),
   });
+
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const showDatePicker = () => setDatePickerVisibility(true);
+  const hideDatePicker = () => setDatePickerVisibility(false);
+
+  const handleConfirm = (date) => {
+    setDestination({
+      ...destination,
+      date: getFormattedDate(date),
+    });
+    hideDatePicker();
+  };
 
   return (
     <ScrollView>
@@ -55,6 +72,24 @@ export default function Home() {
           >
             <Text style={styles.journey}>{destination.end}</Text>
           </ModalSelector>
+
+          <Divider style={{ marginVertical: 10 }} />
+
+          <Text style={styles.miniText}>Date</Text>
+
+          <View>
+            <Pressable onPress={showDatePicker}>
+              <Text style={styles.journey}>{destination.date}</Text>
+            </Pressable>
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              onConfirm={handleConfirm}
+              mode="date"
+              onCancel={hideDatePicker}
+              date={tomorrowsDate}
+            />
+          </View>
+
         </Card.Content>
       </Card>
     </ScrollView>
@@ -88,3 +123,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
 });
+
+const getFormattedDate = (date) => {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  return `${months[date.getMonth()]} ${date.getDate()}`;
+};
