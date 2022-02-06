@@ -2,9 +2,9 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Feather, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
-import Home from "./menus/Home";
+import HomeNavigation from "../navigators/HomeNavigation";
 import Bookings from "./menus/Bookings";
 import Profile from "./menus/Profile";
 
@@ -20,8 +20,8 @@ const Main = () => {
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="HomeNavigation"
+        component={HomeNavigation}
         options={{
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
@@ -30,6 +30,7 @@ const Main = () => {
               size={size}
             />
           ),
+          title: "Home",
         }}
       />
       <Tab.Screen

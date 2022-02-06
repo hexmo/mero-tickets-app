@@ -1,10 +1,18 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, ScrollView, View, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  ScrollView,
+  View,
+  Pressable,
+  Image,
+} from "react-native";
 import { Card, Divider, Button } from "react-native-paper";
 import ModalSelector from "react-native-modal-selector";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import promotion from "../../assets/promotion.png";
 
-export default function Home() {
+export default function Home({ navigation }) {
   let index = 0;
 
   let tomorrowsDate = new Date();
@@ -43,8 +51,12 @@ export default function Home() {
     });
   };
 
+  const onPressContinue = () => {
+    navigation.navigate("SearchResults", { destination });
+  };
+
   return (
-    <ScrollView>
+    <ScrollView style={{ marginBottom: 40 }}>
       <Text style={styles.homeHeader}>{`Where do you want \n to go?`}</Text>
 
       <Card style={styles.card}>
@@ -95,11 +107,13 @@ export default function Home() {
             mode="contained"
             uppercase={false}
             labelStyle={{ fontSize: 20, fontFamily: "Lato_700Bold" }}
+            onPress={onPressContinue}
           >
             Continue
           </Button>
         </Card.Content>
       </Card>
+      <Image style={styles.promotion} source={promotion} resizeMode="cover" />
     </ScrollView>
   );
 }
@@ -113,7 +127,8 @@ const styles = StyleSheet.create({
     color: "#22242B",
   },
   card: {
-    margin: 20,
+    marginTop: 20,
+    marginHorizontal: 20,
     padding: 10,
     borderRadius: 20,
   },
@@ -135,6 +150,13 @@ const styles = StyleSheet.create({
     marginTop: 30,
     borderRadius: 10,
     padding: 5,
+  },
+  promotion: {
+    margin: 20,
+    borderRadius: 20,
+    width: "90%",
+    height: undefined,
+    aspectRatio: 1,
   },
 });
 
