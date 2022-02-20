@@ -4,6 +4,10 @@ import { Card, Title, Caption, Chip } from "react-native-paper";
 import React from "react";
 
 const SearchResult = () => {
+  const handleSeatSelection = () => {
+    
+  };
+
   return (
     <View style={styles.main}>
       <Card style={styles.card}>
