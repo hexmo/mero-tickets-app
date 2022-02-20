@@ -6,7 +6,7 @@ import logo from "../../assets/logo.png";
 
 const Login = ({ navigation }) => {
   const handleSignInPressed = () => {
-    navigation.navigate("Main");
+    navigation.navigate("TabNav");
   };
 
   return (
