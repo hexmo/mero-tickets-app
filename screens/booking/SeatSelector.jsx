@@ -4,8 +4,11 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Seat from "../../components/Seat";
 import { Button } from "react-native-paper";
 import SeatExplanation from "../../components/SeatExplanation";
+import { useNavigation } from "@react-navigation/native";
 
 const SeatSelector = () => {
+  const navigation = useNavigation();
+
   return (
     <FlatList
       style={{ paddingHorizontal: 40 }}
@@ -22,8 +25,12 @@ const SeatSelector = () => {
       ListFooterComponent={() => (
         <View style={{ marginVertical: 20 }}>
           <SeatExplanation />
-          <Button style={styles.continueButton} mode="contained">
-            Continue to Payment
+          <Button
+            style={styles.continueButton}
+            mode="contained"
+            onPress={() => navigation.navigate("Booking")}
+          >
+            Continue
           </Button>
         </View>
       )}

@@ -10,6 +10,7 @@ import SignUp from "../screens/auth/SignUp";
 
 import SearchResults from "../screens/booking/SearchResults";
 import SeatSelector from "../screens/booking/SeatSelector";
+import Booking from "../screens/booking/Booking";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,11 @@ const MainNav = () => {
           name="SeatSelector"
           component={SeatSelector}
           options={{ title: "Select Seats", headerShown: true }}
+        />
+        <Stack.Screen
+          name="Booking"
+          component={Booking}
+          options={{ title: "Traveller Details", headerShown: true }}
         />
       </Stack.Navigator>
     </NavigationContainer>
