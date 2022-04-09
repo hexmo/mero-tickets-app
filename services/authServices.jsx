@@ -7,7 +7,7 @@ const login = (email, password) =>
     password: password,
   });
 
-const signUp = (name, email, password) =>
+const signUp = (email, password) =>
   axios.post("/auth/", {
     email: email,
     password: password,
