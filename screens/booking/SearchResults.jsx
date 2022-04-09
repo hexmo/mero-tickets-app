@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ScrollView, Alert } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Subheading } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { getVehicles } from "../../services/searchService";
@@ -10,19 +10,22 @@ const SearchResults = ({ route, navigation }) => {
   const { destination } = route.params;
 
   const [loading, setLoading] = useState(true);
-  const [results, setResults] = useState(null);
+  const [results, setResults] = useState([]);
 
-  getVehicles(destination.start, destination.end, destination.realDate)
-    .then((res) => {
-      Alert.alert("Success", JSON.stringify(res.data));
-    })
-    .catch((error) => {
-      Alert.alert("Error", JSON.stringify(error.response));
-    })
-    .finally(() => setLoading(false));
+  useEffect(() => {
+    getVehicles(destination.start, destination.end, destination.realDate)
+      .then((res) => {
+        setResults(res.data);
+        Alert.alert("Success", JSON.stringify(res.data));
+      })
+      .catch((error) => {
+        Alert.alert("Error", JSON.stringify(error.response));
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
-  <ScrollView>
+    <ScrollView>
       <Card style={styles.journeyCard}>
         <Card.Content style={styles.journeyContent}>
           <Text style={styles.joruneyText}>{destination.start}</Text>
@@ -38,7 +41,15 @@ const SearchResults = ({ route, navigation }) => {
           <Subheading>Loading........</Subheading>
         ) : (
           <>
-            <SearchResult navigation={navigation} />
+            {results.map((res) => (
+              <SearchResult
+                navigation={navigation}
+                key={res.id}
+                name={res.name}
+                facility={res.facility}
+                time={res.journey_time}
+              />
+            ))}
           </>
         )}
       </View>
