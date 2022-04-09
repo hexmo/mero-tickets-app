@@ -1,10 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import Ticket from "../../components/Ticket";
 
 const Bookings = () => {
   return (
     <View>
-      <Text>This is bookings screen.</Text>
+      <Ticket />
+      <Ticket />
+      <Ticket />
     </View>
   );
 };
