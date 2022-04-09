@@ -16,7 +16,7 @@ const SearchResults = ({ route, navigation }) => {
     getVehicles(destination.start, destination.end, destination.realDate)
       .then((res) => {
         setResults(res.data);
-        Alert.alert("Success", JSON.stringify(res.data));
+        // Alert.alert("Success", JSON.stringify(res.data));
       })
       .catch((error) => {
         Alert.alert("Error", JSON.stringify(error.response));
@@ -50,6 +50,12 @@ const SearchResults = ({ route, navigation }) => {
                 time={res.journey_time}
               />
             ))}
+
+            {results.length > 0 ? (
+              <></>
+            ) : (
+              <Subheading>No results found.</Subheading>
+            )}
           </>
         )}
       </View>
