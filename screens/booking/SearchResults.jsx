@@ -1,14 +1,28 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
-import React from "react";
+import { StyleSheet, Text, View, ScrollView, Alert } from "react-native";
+import React, { useState } from "react";
 import { Card, Subheading } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
+import { getVehicles } from "../../services/searchService";
 
 import SearchResult from "../../components/SearchResult";
 
 const SearchResults = ({ route, navigation }) => {
   const { destination } = route.params;
+
+  const [loading, setLoading] = useState(true);
+  const [results, setResults] = useState(null);
+
+  getVehicles(destination.start, destination.end, destination.realDate)
+    .then((res) => {
+      Alert.alert("Success", JSON.stringify(res.data));
+    })
+    .catch((error) => {
+      Alert.alert("Error", JSON.stringify(error.response));
+    })
+    .finally(() => setLoading(false));
+
   return (
-    <ScrollView>
+  <ScrollView>
       <Card style={styles.journeyCard}>
         <Card.Content style={styles.journeyContent}>
           <Text style={styles.joruneyText}>{destination.start}</Text>
@@ -19,13 +33,14 @@ const SearchResults = ({ route, navigation }) => {
 
       <View style={{ margin: 10 }}>
         <Subheading>{`Showing results for ${destination.date}.`}</Subheading>
-        <SearchResult navigation={navigation} />
-        <SearchResult navigation={navigation} />
-        <SearchResult navigation={navigation} />
-        <SearchResult navigation={navigation} />
-        <SearchResult navigation={navigation} />
-        <SearchResult navigation={navigation} />
-        <SearchResult navigation={navigation} />
+
+        {loading ? (
+          <Subheading>Loading........</Subheading>
+        ) : (
+          <>
+            <SearchResult navigation={navigation} />
+          </>
+        )}
       </View>
     </ScrollView>
   );
