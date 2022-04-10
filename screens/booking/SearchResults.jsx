@@ -48,6 +48,7 @@ const SearchResults = ({ route, navigation }) => {
                 name={res.name}
                 facility={res.facility}
                 time={res.journey_time}
+                price={res.ticket_price}
               />
             ))}
 

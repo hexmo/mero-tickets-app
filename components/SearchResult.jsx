@@ -4,7 +4,7 @@ import moment from "moment";
 
 import React from "react";
 
-const SearchResult = ({ navigation, name, facility, time }) => {
+const SearchResult = ({ navigation, name, facility, time, price }) => {
   const handleSeatSelection = () => {
     navigation.navigate("SeatSelector");
   };
@@ -20,7 +20,7 @@ const SearchResult = ({ navigation, name, facility, time }) => {
           {/* <Chip icon="progress-clock">{moment(time).format("h:mm a")}</Chip> */}
           <Chip icon="progress-clock">{time.slice(11, 16)}</Chip>
           <Chip icon="seat-recline-extra">37 seats</Chip>
-          <Chip icon="cash-multiple">Rs 1200/-</Chip>
+          <Chip icon="cash-multiple">Rs {price}/-</Chip>
         </View>
       </Card>
     </View>
