@@ -1,12 +1,16 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Card, Title, Caption, Chip } from "react-native-paper";
 
 import React from "react";
 
-const SearchResult = () => {
+const SearchResult = ({ navigation }) => {
+  const handleSeatSelection = () => {
+    navigation.navigate("SeatSelector");
+  };
+
   return (
     <View style={styles.main}>
-      <Card style={styles.card}>
+      <Card style={styles.card} onPress={handleSeatSelection}>
         <View style={styles.headerView}>
           <Title>Bagmati Yatayat</Title>
           <Caption>Super A/C Deluxe</Caption>

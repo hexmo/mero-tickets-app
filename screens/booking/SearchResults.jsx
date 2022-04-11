@@ -8,7 +8,7 @@ import SearchResult from "../../components/SearchResult";
 const SearchResults = ({ route, navigation }) => {
   const { destination } = route.params;
   return (
-    <ScrollView style={{ marginBottom: 40 }}>
+    <ScrollView>
       <Card style={styles.journeyCard}>
         <Card.Content style={styles.journeyContent}>
           <Text style={styles.joruneyText}>{destination.start}</Text>
@@ -19,12 +19,13 @@ const SearchResults = ({ route, navigation }) => {
 
       <View style={{ margin: 10 }}>
         <Subheading>{`Showing results for ${destination.date}.`}</Subheading>
-        <SearchResult />
-        <SearchResult />
-        <SearchResult />
-        <SearchResult />
-        <SearchResult />
-        <SearchResult />
+        <SearchResult navigation={navigation} />
+        <SearchResult navigation={navigation} />
+        <SearchResult navigation={navigation} />
+        <SearchResult navigation={navigation} />
+        <SearchResult navigation={navigation} />
+        <SearchResult navigation={navigation} />
+        <SearchResult navigation={navigation} />
       </View>
     </ScrollView>
   );

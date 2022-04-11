@@ -4,13 +4,13 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
-import HomeNavigation from "../navigators/HomeNavigation";
-import Bookings from "./menus/Bookings";
-import Profile from "./menus/Profile";
+import Home from "../screens/menus/Home";
+import Bookings from "../screens/menus/Bookings";
+import Profile from "../screens/menus/Profile";
 
 const Tab = createBottomTabNavigator();
 
-const Main = () => {
+const TavNav = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -20,8 +20,8 @@ const Main = () => {
       }}
     >
       <Tab.Screen
-        name="HomeNavigation"
-        component={HomeNavigation}
+        name="Home"
+        component={Home}
         options={{
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
@@ -63,7 +63,7 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default TavNav;
 
 const styles = StyleSheet.create({
   navigation: {

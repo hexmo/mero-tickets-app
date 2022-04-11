@@ -1,6 +1,6 @@
 import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
 import { StyleSheet, View, StatusBar } from "react-native";
-import Router from "./Router";
+import MainNav from "./navigators/MainNav";
 
 import AppLoading from "expo-app-loading";
 import {
@@ -38,7 +38,7 @@ export default function App() {
       <PaperProvider theme={theme}>
         <View style={styles.container}>
           <StatusBar style="light" backgroundColor="#e44c34" />
-          <Router />
+          <MainNav />
         </View>
       </PaperProvider>
     );
