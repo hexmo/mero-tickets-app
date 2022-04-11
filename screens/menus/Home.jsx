@@ -37,6 +37,7 @@ export default function Home({ navigation }) {
     start: "Kathmandu",
     end: "Pokhara",
     date: getFormattedDate(tomorrowsDate),
+    realDate: getApiDate(tomorrowsDate),
   });
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -48,6 +49,7 @@ export default function Home({ navigation }) {
     setDestination({
       ...destination,
       date: getFormattedDate(date),
+      realDate: getApiDate(date),
     });
   };
 
@@ -177,4 +179,8 @@ const getFormattedDate = (date) => {
   ];
 
   return `${months[date.getMonth()]} ${date.getDate()}`;
+};
+
+const getApiDate = (date) => {
+  return `2022-${date.getMonth() + 1}-${date.getDate()}`;
 };

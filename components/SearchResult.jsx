@@ -1,9 +1,10 @@
 import { StyleSheet, View } from "react-native";
 import { Card, Title, Caption, Chip } from "react-native-paper";
+import moment from "moment";
 
 import React from "react";
 
-const SearchResult = ({ navigation }) => {
+const SearchResult = ({ navigation, name, facility, time, price }) => {
   const handleSeatSelection = () => {
     navigation.navigate("SeatSelector");
   };
@@ -12,13 +13,14 @@ const SearchResult = ({ navigation }) => {
     <View style={styles.main}>
       <Card style={styles.card} onPress={handleSeatSelection}>
         <View style={styles.headerView}>
-          <Title>Bagmati Yatayat</Title>
-          <Caption>Super A/C Deluxe</Caption>
+          <Title>{name}</Title>
+          <Caption>{facility}</Caption>
         </View>
         <View style={styles.headerView}>
-          <Chip icon="progress-clock">08:00 PM</Chip>
+          {/* <Chip icon="progress-clock">{moment(time).format("h:mm a")}</Chip> */}
+          <Chip icon="progress-clock">{time.slice(11, 16)}</Chip>
           <Chip icon="seat-recline-extra">37 seats</Chip>
-          <Chip icon="cash-multiple">Rs 1200/-</Chip>
+          <Chip icon="cash-multiple">Rs {price}/-</Chip>
         </View>
       </Card>
     </View>

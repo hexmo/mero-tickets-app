@@ -1,12 +1,29 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
-import React from "react";
+import { StyleSheet, Text, View, ScrollView, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
 import { Card, Subheading } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
+import { getVehicles } from "../../services/searchService";
 
 import SearchResult from "../../components/SearchResult";
 
 const SearchResults = ({ route, navigation }) => {
   const { destination } = route.params;
+
+  const [loading, setLoading] = useState(true);
+  const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    getVehicles(destination.start, destination.end, destination.realDate)
+      .then((res) => {
+        setResults(res.data);
+        // Alert.alert("Success", JSON.stringify(res.data));
+      })
+      .catch((error) => {
+        Alert.alert("Error", JSON.stringify(error.response));
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <ScrollView>
       <Card style={styles.journeyCard}>
@@ -19,13 +36,29 @@ const SearchResults = ({ route, navigation }) => {
 
       <View style={{ margin: 10 }}>
         <Subheading>{`Showing results for ${destination.date}.`}</Subheading>
-        <SearchResult navigation={navigation} />
-        <SearchResult navigation={navigation} />
-        <SearchResult navigation={navigation} />
-        <SearchResult navigation={navigation} />
-        <SearchResult navigation={navigation} />
-        <SearchResult navigation={navigation} />
-        <SearchResult navigation={navigation} />
+
+        {loading ? (
+          <Subheading>Loading........</Subheading>
+        ) : (
+          <>
+            {results.map((res) => (
+              <SearchResult
+                navigation={navigation}
+                key={res.id}
+                name={res.name}
+                facility={res.facility}
+                time={res.journey_time}
+                price={res.ticket_price}
+              />
+            ))}
+
+            {results.length > 0 ? (
+              <></>
+            ) : (
+              <Subheading>No results found.</Subheading>
+            )}
+          </>
+        )}
       </View>
     </ScrollView>
   );
