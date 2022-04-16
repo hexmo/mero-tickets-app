@@ -3,31 +3,38 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 
 // const API_URL = "https://mero-tickets.herokuapp.com";
-const API_URL = "http://10.0.2.2:3000/";
+// const API_URL = "http://10.0.2.2:3000/";
+const API_URL = "http://127.0.0.1:3000/";
 
 const instance = axios.create({ baseURL: API_URL });
 
+// https://stackoverflow.com/questions/57033617/create-axios-instance-with-taking-token-from-asyncstorage
 instance.interceptors.request.use(
-  function (config) {
-    getData().then((authHeaders) => {
-      if (authHeaders != null) {
-        config.headers[config.method] = {
-          "access-token": authHeaders["access-token"],
-          client: authHeaders["client"],
-          uid: authHeaders["uid"],
-        };
-      }
-    });
+  async (config) => {
+    const jsonValue = await AsyncStorage.getItem("@storage_Key");
+    const authHeaders = jsonValue != null ? JSON.parse(jsonValue) : null;
+
+    console.log(authHeaders);
+
+    if (authHeaders != null) {
+      config.headers[config.method] = {
+        "access-token": authHeaders["access-token"],
+        client: authHeaders["client"],
+        uid: authHeaders["uid"],
+      };
+    }
 
     return config;
   },
-  function (error) {
+  (error) => {
+    console.log("Axios interceptors.request");
+    console.log(error);
     return Promise.reject(error);
   }
 );
 
 instance.interceptors.response.use(
-  function (response) {
+  async (response) => {
     if (response.headers["access-token"]) {
       const authHeaders = {
         "access-token": response.headers["access-token"],
@@ -37,35 +44,24 @@ instance.interceptors.response.use(
         "token-type": response.headers["token-type"],
       };
 
-      storeData(authHeaders);
+      const jsonValue = JSON.stringify(authHeaders);
+      console.log("Saved auth headers headers");
+      console.log(jsonValue);
+      await AsyncStorage.setItem("@storage_Key", jsonValue);
     } else {
       removeData();
     }
 
+    console.log("Response headers");
+    console.log(response.headers);
     return response;
   },
-  function (error) {
+  (error) => {
+    console.log("Axios interceptors.response");
+    console.log(error);
     return Promise.reject(error);
   }
 );
-
-const getData = async () => {
-  try {
-    const jsonValue = await AsyncStorage.getItem("@storage_Key");
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
-  } catch (e) {
-    // error reading value
-  }
-};
-
-const storeData = async (value) => {
-  try {
-    const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem("@storage_Key", jsonValue);
-  } catch (e) {
-    // saving error
-  }
-};
 
 const removeData = async () => {
   await AsyncStorage.removeItem("@storage_Key");
