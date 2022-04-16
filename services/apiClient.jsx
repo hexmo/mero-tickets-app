@@ -35,7 +35,10 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   async (response) => {
-    if (response.headers["access-token"]) {
+    // Do not save any data if access-token is blank
+    // batch_request_buffer_throttle: https://devise-token-auth.gitbook.io/devise-token-auth/config/initialization#:~:text=batch_request_buffer_throttle
+    
+    if (response.headers["access-token"] != "") {
       const authHeaders = {
         "access-token": response.headers["access-token"],
         client: response.headers["client"],
@@ -48,8 +51,6 @@ instance.interceptors.response.use(
       console.log("Saved auth headers headers");
       console.log(jsonValue);
       await AsyncStorage.setItem("@storage_Key", jsonValue);
-    } else {
-      removeData();
     }
 
     console.log("Response headers");

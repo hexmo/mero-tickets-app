@@ -31,7 +31,6 @@ const MainNav = () => {
       })
       .finally(() => {
         setLoading(false);
-        removeData();
       });
   }, []);
 
