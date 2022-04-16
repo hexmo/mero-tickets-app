@@ -14,4 +14,6 @@ const signUp = (email, password) =>
     password_confirmation: password,
   });
 
-export { login, signUp };
+const isLoggedIn = () => axios.get("/auth/validate_token");
+
+export { login, signUp, isLoggedIn };
