@@ -19,7 +19,7 @@ const BusDetails = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    console.log(route.params);
+    // console.log(route.params);
 
     getVechicleDetails(vehicleId)
       .then((res) => {

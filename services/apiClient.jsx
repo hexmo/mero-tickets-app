@@ -2,8 +2,8 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 
-const API_URL = "https://mero-tickets.herokuapp.com";
-// const API_URL = "http://10.0.2.2:3000/";
+// const API_URL = "https://mero-tickets.herokuapp.com";
+const API_URL = "http://10.0.2.2:3000/";
 // const API_URL = "http://127.0.0.1:3000/";
 
 const instance = axios.create({ baseURL: API_URL });
@@ -14,7 +14,7 @@ instance.interceptors.request.use(
     const jsonValue = await AsyncStorage.getItem("@storage_Key");
     const authHeaders = jsonValue != null ? JSON.parse(jsonValue) : null;
 
-    console.log(authHeaders);
+    // console.log(authHeaders);
 
     if (authHeaders != null) {
       config.headers[config.method] = {
@@ -27,8 +27,8 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.log("Axios interceptors.request");
-    console.log(error);
+    // console.log("Axios interceptors.request");
+    // console.log(error);
     return Promise.reject(error);
   }
 );
@@ -48,18 +48,18 @@ instance.interceptors.response.use(
       };
 
       const jsonValue = JSON.stringify(authHeaders);
-      console.log("Saved auth headers headers");
-      console.log(jsonValue);
+      // console.log("Saved auth headers headers");
+      // console.log(jsonValue);
       await AsyncStorage.setItem("@storage_Key", jsonValue);
     }
 
-    console.log("Response headers");
-    console.log(response.headers);
+    // console.log("Response headers");
+    // console.log(response.headers);
     return response;
   },
   (error) => {
-    console.log("Axios interceptors.response");
-    console.log(error);
+    // console.log("Axios interceptors.response");
+    // console.log(error);
     return Promise.reject(error);
   }
 );
