@@ -44,8 +44,8 @@ const SearchResults = ({ route, navigation }) => {
             {results.map((res) => (
               <SearchResult
                 navigation={navigation}
-                key={res.id}
-                bookingId={res.id}
+                key={res.booking_id}
+                bookingId={res.booking_id}
                 vehicleId={res.vehicle_id}
                 name={res.name}
                 facility={res.facility}
