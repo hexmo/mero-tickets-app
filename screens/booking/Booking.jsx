@@ -1,9 +1,30 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { TextInput, Button } from "react-native-paper";
+import { KhatiSdk } from "rn-all-nepal-payment";
 
 const Booking = ({ route, navigation }) => {
+  const [isVisible, setIsVisible] = useState(false);
   const { booking, selectedSeats, price } = route.params;
+
+  const initiatePaymentHandler = () => {
+    setIsVisible(true);
+  };
+
+  const onPaymentComplete = (data) => {
+    setIsVisible(false);
+    const str = data.nativeEvent.data;
+    const resp = JSON.parse(str);
+    console.log({ resp });
+    if (resp.event === "CLOSED") {
+      // handle closed action
+    } else if (resp.event === "SUCCESS") {
+      console.log({ data: resp.data });
+    } else if (resp.event === "ERROR") {
+      console.log({ error: resp.data });
+    }
+    return;
+  };
 
   return (
     <View style={styles.main}>
@@ -34,15 +55,31 @@ const Booking = ({ route, navigation }) => {
       <Button
         mode="contained"
         uppercase={false}
-        style={{ backgroundColor: "#41A124" }}
-        onPress={() => {
-          alert("Feature coming in next iteration");
-        }}
+        style={{ backgroundColor: "#5D2E8E" }}
+        onPress={initiatePaymentHandler}
       >
-        <Text style={{ fontSize: 24, fontFamily: "Lato_400Regular" }}>
-          Pay using eSewa
+        <Text style={{ fontSize: 22, fontFamily: "Lato_400Regular" }}>
+          Pay Now
         </Text>
       </Button>
+
+      <KhatiSdk
+        amount={price * 100} // Number in paisa
+        isVisible={isVisible} // Bool to show model
+        paymentPreference={[
+          // Array of services needed from Khalti
+          "KHALTI",
+          "EBANKING",
+          "MOBILE_BANKING",
+          "CONNECT_IPS",
+          "SCT",
+        ]}
+        productName={"Dragon"} // Name of product
+        productIdentity={"1234567890"} // Unique product identifier at merchant
+        onPaymentComplete={onPaymentComplete} // Callback from Khalti Web Sdk
+        productUrl={"http://gameofthrones.wikia.com/wiki/Dragons"} // Url of product
+        publicKey={"test_public_key_dc74e0fd57cb46cd93832aee0a390234"} // Test or live public key which identifies the merchant
+      />
     </View>
   );
 };
