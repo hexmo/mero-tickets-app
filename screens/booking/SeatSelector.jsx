@@ -18,6 +18,7 @@ const SeatSelector = ({ route, navigation }) => {
 
   const [loading, setLoading] = useState(true);
   const [booking, setBooking] = useState();
+  const [selectedSeats, setSelectedSeats] = useState([]);
 
   useEffect(() => {
     getBookingDetails(bookingId)
@@ -30,6 +31,16 @@ const SeatSelector = ({ route, navigation }) => {
       })
       .finally(() => setLoading(false));
   }, []);
+
+  // handlers
+  const goToBooking = () => {
+    if (selectedSeats.length === 0) {
+      Alert.alert("You should first select a seat to continue.");
+      return;
+    }
+
+    navigation.navigate("Booking");
+  };
 
   if (loading) {
     return (
@@ -44,7 +55,12 @@ const SeatSelector = ({ route, navigation }) => {
       style={{ paddingHorizontal: 40 }}
       data={booking.seats}
       renderItem={({ item, index, separators }) => (
-        <Seat id={item.id} booked={item.booked} />
+        <Seat
+          id={item.id}
+          booked={item.booked}
+          selectedSeats={selectedSeats}
+          setSelectedSeats={setSelectedSeats}
+        />
       )}
       numColumns={5}
       ListHeaderComponent={() => (
@@ -55,10 +71,19 @@ const SeatSelector = ({ route, navigation }) => {
       ListFooterComponent={() => (
         <View style={{ marginVertical: 20 }}>
           <SeatExplanation />
+          <Text
+            style={{
+              marginVertical: 10,
+              fontSize: 16,
+              fontFamily: "Lato_700Bold",
+            }}
+          >
+            Selected seats: {selectedSeats.join(", ")}
+          </Text>
           <Button
             style={styles.continueButton}
             mode="contained"
-            onPress={() => navigation.navigate("Booking")}
+            onPress={goToBooking}
           >
             Continue
           </Button>
@@ -72,7 +97,7 @@ export default SeatSelector;
 
 const styles = StyleSheet.create({
   continueButton: {
-    marginTop: 20,
+    marginTop: 10,
     borderRadius: 10,
     backgroundColor: "#e44c34",
   },

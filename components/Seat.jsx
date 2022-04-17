@@ -2,8 +2,19 @@ import { StyleSheet, Text, View, Pressable } from "react-native";
 import React, { useState } from "react";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-const Seat = ({ id, booked }) => {
+const Seat = ({ id, booked, selectedSeats, setSelectedSeats }) => {
   const [seleted, setSelected] = useState(false);
+
+  // handlers
+  const handleSeatSelect = () => {
+    setSelected(true);
+    setSelectedSeats([...selectedSeats, id]);
+  };
+
+  const handleSeatRemove = () => {
+    setSelected(false);
+    setSelectedSeats(selectedSeats.filter((e) => e != id));
+  };
 
   if (id.charAt(0) == "e") {
     return (
@@ -42,7 +53,7 @@ const Seat = ({ id, booked }) => {
   }
 
   return seleted ? (
-    <Pressable onPress={() => setSelected(!seleted)} style={{ flex: 1 }}>
+    <Pressable onPress={handleSeatRemove} style={{ flex: 1 }}>
       <View
         style={{
           flex: 1,
@@ -59,7 +70,7 @@ const Seat = ({ id, booked }) => {
       </View>
     </Pressable>
   ) : (
-    <Pressable onPress={() => setSelected(!seleted)} style={{ flex: 1 }}>
+    <Pressable onPress={handleSeatSelect} style={{ flex: 1 }}>
       <View
         style={{
           flex: 1,
