@@ -1,12 +1,22 @@
 import { StyleSheet, View } from "react-native";
 import { Card, Title, Caption, Chip } from "react-native-paper";
-import moment from "moment";
 
 import React from "react";
 
-const SearchResult = ({ navigation, name, facility, time, price }) => {
+const SearchResult = ({
+  navigation,
+  bookingId,
+  vehicleId,
+  name,
+  facility,
+  time,
+  price,
+}) => {
   const handleSeatSelection = () => {
-    navigation.navigate("SeatSelector");
+    navigation.navigate("BusDetails", {
+      bookingId,
+      vehicleId,
+    });
   };
 
   return (

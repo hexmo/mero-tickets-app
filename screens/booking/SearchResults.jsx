@@ -45,6 +45,8 @@ const SearchResults = ({ route, navigation }) => {
               <SearchResult
                 navigation={navigation}
                 key={res.id}
+                bookingId={res.id}
+                vehicleId={res.vehicle_id}
                 name={res.name}
                 facility={res.facility}
                 time={res.journey_time}

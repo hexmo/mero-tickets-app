@@ -11,6 +11,7 @@ import SignUp from "../screens/auth/SignUp";
 import SearchResults from "../screens/booking/SearchResults";
 import SeatSelector from "../screens/booking/SeatSelector";
 import Booking from "../screens/booking/Booking";
+import BusDetails from "../screens/booking/BusDetails";
 import { isLoggedIn } from "../services/authServices";
 
 import { removeData } from "../services/apiClient";
@@ -57,6 +58,11 @@ const MainNav = () => {
               component={Booking}
               options={{ title: "Traveller Details", headerShown: true }}
             />
+            <Stack.Screen
+              name="BusDetails"
+              component={BusDetails}
+              options={{ title: "Bus Details", headerShown: true }}
+            />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="SignUp" component={SignUp} />
           </>
@@ -79,6 +85,11 @@ const MainNav = () => {
               name="Booking"
               component={Booking}
               options={{ title: "Traveller Details", headerShown: true }}
+            />
+            <Stack.Screen
+              name="BusDetails"
+              component={BusDetails}
+              options={{ title: "Bus Details", headerShown: true }}
             />
           </>
         )}
