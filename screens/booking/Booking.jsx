@@ -2,15 +2,18 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { TextInput, Button } from "react-native-paper";
 
-const Booking = () => {
+const Booking = ({ route, navigation }) => {
+  const { booking, selectedSeats, price } = route.params;
+
   return (
     <View style={styles.main}>
       <Text style={styles.text}>
-        Seats: <Text style={{ color: "#e44c34" }}>A1, A2</Text>
+        Seats:{" "}
+        <Text style={{ color: "#e44c34" }}>{selectedSeats.join(", ")}</Text>
       </Text>
 
       <Text style={styles.text}>
-        Total Price: <Text style={{ color: "#e44c34" }}>2400</Text>
+        Total Price: <Text style={{ color: "#e44c34" }}>{price}</Text>
       </Text>
 
       <TextInput

@@ -39,7 +39,11 @@ const SeatSelector = ({ route, navigation }) => {
       return;
     }
 
-    navigation.navigate("Booking");
+    navigation.navigate("Booking", {
+      booking,
+      selectedSeats,
+      price: booking.ticket_price * selectedSeats.length,
+    });
   };
 
   if (loading) {
@@ -79,6 +83,15 @@ const SeatSelector = ({ route, navigation }) => {
             }}
           >
             Selected seats: {selectedSeats.join(", ")}
+          </Text>
+          <Text
+            style={{
+              marginVertical: 10,
+              fontSize: 16,
+              fontFamily: "Lato_700Bold",
+            }}
+          >
+            Total price: {booking.ticket_price * selectedSeats.length}
           </Text>
           <Button
             style={styles.continueButton}
