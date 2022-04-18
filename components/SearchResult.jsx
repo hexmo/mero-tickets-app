@@ -11,6 +11,7 @@ const SearchResult = ({
   facility,
   time,
   price,
+  remaining_seats,
 }) => {
   const handleSeatSelection = () => {
     navigation.navigate("BusDetails", {
@@ -29,7 +30,7 @@ const SearchResult = ({
         <View style={styles.headerView}>
           {/* <Chip icon="progress-clock">{moment(time).format("h:mm a")}</Chip> */}
           <Chip icon="progress-clock">{time.slice(11, 16)}</Chip>
-          <Chip icon="seat-recline-extra">37 seats</Chip>
+          <Chip icon="seat-recline-extra">{remaining_seats} seats</Chip>
           <Chip icon="cash-multiple">Rs {price}/-</Chip>
         </View>
       </Card>

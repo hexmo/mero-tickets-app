@@ -51,6 +51,7 @@ const SearchResults = ({ route, navigation }) => {
                 facility={res.facility}
                 time={res.journey_time}
                 price={res.ticket_price}
+                remaining_seats={res.remaining_seats}
               />
             ))}
 
