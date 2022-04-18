@@ -1,13 +1,25 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Alert } from "react-native";
 import React, { useState } from "react";
 import { TextInput, Button } from "react-native-paper";
 import { KhatiSdk } from "rn-all-nepal-payment";
 
 const Booking = ({ route, navigation }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [passengerName, setPassengerName] = useState("");
+  const [passengerContact, setPassengerContact] = useState("");
+
   const { booking, selectedSeats, price } = route.params;
+  const productName = `Booking:${booking.id} Seats:${selectedSeats.join(", ")}`;
 
   const initiatePaymentHandler = () => {
+    if (passengerName === "" || passengerContact === "") {
+      Alert.alert(
+        "Validation error",
+        "Please enter Passenger name and contact to continue."
+      );
+      return;
+    }
+
     setIsVisible(true);
   };
 
@@ -15,7 +27,6 @@ const Booking = ({ route, navigation }) => {
     setIsVisible(false);
     const str = data.nativeEvent.data;
     const resp = JSON.parse(str);
-    console.log({ resp });
     if (resp.event === "CLOSED") {
       // handle closed action
     } else if (resp.event === "SUCCESS") {
@@ -42,6 +53,8 @@ const Booking = ({ route, navigation }) => {
         label="Passenger Name"
         mode="outlined"
         left={<TextInput.Icon name="account" />}
+        defaultValue={passengerName}
+        onChangeText={(passengerName) => setPassengerName(passengerName)}
       />
 
       <TextInput
@@ -50,6 +63,10 @@ const Booking = ({ route, navigation }) => {
         mode="outlined"
         left={<TextInput.Icon name="phone" />}
         keyboardType="phone-pad"
+        defaultValue={passengerContact}
+        onChangeText={(passengerContact) =>
+          setPassengerContact(passengerContact)
+        }
       />
 
       <Button
@@ -59,7 +76,7 @@ const Booking = ({ route, navigation }) => {
         onPress={initiatePaymentHandler}
       >
         <Text style={{ fontSize: 22, fontFamily: "Lato_400Regular" }}>
-          Pay Now
+          Pay with Khalti
         </Text>
       </Button>
 
@@ -69,16 +86,12 @@ const Booking = ({ route, navigation }) => {
         paymentPreference={[
           // Array of services needed from Khalti
           "KHALTI",
-          "EBANKING",
-          "MOBILE_BANKING",
-          "CONNECT_IPS",
-          "SCT",
         ]}
-        productName={"Dragon"} // Name of product
+        productName={productName} // Name of product
         productIdentity={"1234567890"} // Unique product identifier at merchant
         onPaymentComplete={onPaymentComplete} // Callback from Khalti Web Sdk
-        productUrl={"http://gameofthrones.wikia.com/wiki/Dragons"} // Url of product
-        publicKey={"test_public_key_dc74e0fd57cb46cd93832aee0a390234"} // Test or live public key which identifies the merchant
+        productUrl={"http://mero-tickets.com"} // Url of product
+        publicKey={"test_public_key_564deace2b94422d9242353c4b270682"} // Test or live public key which identifies the merchant
       />
     </View>
   );
