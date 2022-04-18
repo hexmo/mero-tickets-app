@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Alert } from "react-native";
 import React, { useState } from "react";
 import { TextInput, Button } from "react-native-paper";
 import { KhatiSdk } from "rn-all-nepal-payment";
+import { bookTicket } from "../../services/bookingServices";
 
 const Booking = ({ route, navigation }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -20,6 +21,14 @@ const Booking = ({ route, navigation }) => {
       return;
     }
 
+    if (passengerContact.length !== 10) {
+      Alert.alert(
+        "Validation error",
+        "Phone number should be 10 characters long."
+      );
+      return;
+    }
+
     setIsVisible(true);
   };
 
@@ -31,8 +40,31 @@ const Booking = ({ route, navigation }) => {
       // handle closed action
     } else if (resp.event === "SUCCESS") {
       console.log({ data: resp.data });
+      bookTicket(
+        selectedSeats.join(","),
+        price,
+        passengerName,
+        passengerContact,
+        booking.id
+      )
+        .then((response) => {
+          Alert.alert(
+            "Success",
+            "Booked tickets successfully. Returning to home.",
+            [
+              {
+                text: "Return Home",
+                onPress: () => navigation.replace("TabNav"),
+              },
+            ]
+          );
+        })
+        .catch((error) => {
+          Alert.alert("Error", JSON.stringify(error.response));
+        });
     } else if (resp.event === "ERROR") {
       console.log({ error: resp.data });
+      Alert.alert("Error", "Something went wrong. Please try again later");
     }
     return;
   };
