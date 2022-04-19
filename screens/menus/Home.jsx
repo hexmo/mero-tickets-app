@@ -115,7 +115,7 @@ export default function Home({ navigation }) {
           </Button>
         </Card.Content>
       </Card>
-      <Image style={styles.promotion} source={promotion} resizeMode="cover" />
+      {/* <Image style={styles.promotion} source={promotion} resizeMode="cover" /> */}
     </ScrollView>
   );
 }

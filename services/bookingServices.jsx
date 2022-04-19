@@ -15,4 +15,8 @@ const bookTicket = (
     booking_id: booking_id,
   });
 
-export { bookTicket };
+const getBookedTickets = () => axios.get("/booked_tickets");
+
+const getExpiredTickets = () => axios.get("/expired_tickets");
+
+export { bookTicket, getBookedTickets, getExpiredTickets };

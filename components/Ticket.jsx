@@ -2,15 +2,25 @@ import { StyleSheet, View, Image } from "react-native";
 import React from "react";
 import { Title, Caption, Text } from "react-native-paper";
 
-const Ticket = () => {
+const Ticket = ({ ticket, booking, vehicle }) => {
   return (
     <View style={styles.ticket}>
       <View style={styles.tickerDetails}>
-        <Title>Bagmati Yatayat</Title>
-        <Caption>KATHMANDU - POKAHRA</Caption>
-        <Text>Alin Dangi (98480XXXXX)</Text>
-        <Text>Seats: A5, A6</Text>
-        <Text>Time: April 5, 08:00 PM</Text>
+        <Title>{vehicle.name}</Title>
+        <Caption>
+          {booking.start_location.toUpperCase()} -{" "}
+          {booking.end_location.toUpperCase()}
+        </Caption>
+        <Text>
+          {ticket.passenger_name} ({ticket.passenger_contact})
+        </Text>
+        <Text>Seats: {ticket.seats.toUpperCase()}</Text>
+        <Text style={{ fontFamily: "Lato_700Bold", marginVertical: 3 }}>
+          {vehicle.license_plate}
+        </Text>
+        <Text>
+          Time: {booking.journery_date}, {booking.journey_time.slice(11, 16)}
+        </Text>
       </View>
 
       {/* https://stackoverflow.com/questions/34180629/react-native-fit-image-in-containing-view-not-the-whole-screen-size */}
