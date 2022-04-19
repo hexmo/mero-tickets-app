@@ -34,7 +34,7 @@
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-web": "0.17.1",
-    "react-native-webview": "^11.18.1",
+    "react-native-webview": "11.15.0",
     "rn-all-nepal-payment": "^1.0.2"
   },
   "devDependencies": {
