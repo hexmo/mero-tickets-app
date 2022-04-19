@@ -3,27 +3,13 @@ import React from "react";
 import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
 import { signOut } from "../../services/authServices";
 import PreviousBookings from "../../components/PreviousBookings";
+import ProfileCard from "../../components/ProfileCard";
 
 const Profile = ({ navigation }) => {
-  const signOutHandler = () => {
-    signOut()
-      .then((res) => {
-        navigation.replace("Login");
-      })
-      .catch((error) => {
-        Alert.alert("Error", JSON.stringify(error.response));
-      });
-  };
 
   return (
-    <View style={{}}>
-      <Button
-        mode="contained"
-        style={styles.continueButton}
-        onPress={signOutHandler}
-      >
-        Sign Out
-      </Button>
+    <View>
+      <ProfileCard />
 
       <Card style={styles.card}>
         <Text style={{ fontSize: 22, fontFamily: "Lato_700Bold" }}>
