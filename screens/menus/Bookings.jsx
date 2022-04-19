@@ -11,7 +11,7 @@ const Bookings = () => {
     getBookedTickets()
       .then((response) => {
         setPurchases(response.data);
-        Alert.alert("Success", JSON.stringify(response.data));
+        // Alert.alert("Success", JSON.stringify(response.data));
       })
       .catch((error) => {
         Alert.alert("Error", JSON.stringify(error));
