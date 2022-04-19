@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Alert, ActivityIndicator } from "react-native";
 import React, { useState, useEffect } from "react";
-import Ticket from "../components/Ticket";
+import OldTicket from "../components/OldTicket";
 import { getExpiredTickets } from "../services/bookingServices";
 
 const PreviousBookings = () => {
@@ -46,7 +46,7 @@ const PreviousBookings = () => {
   return (
     <View>
       {purchases.map((purchase) => (
-        <Ticket
+        <OldTicket
           key={purchase.ticket.id}
           ticket={purchase.ticket}
           booking={purchase.booking}
