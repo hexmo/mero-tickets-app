@@ -1,11 +1,19 @@
 import { StyleSheet, Text, View, Pressable, Alert } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { signOut } from "../services/authServices";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ProfileCard = () => {
   const navigation = useNavigation();
+  const [email, setEmail] = useState("");
+
+  useEffect(async () => {
+    const jsonValue = await AsyncStorage.getItem("@storage_Key");
+    const authHeaders = JSON.parse(jsonValue);
+    setEmail(authHeaders["uid"]);
+  }, []);
 
   const signOutHandler = () => {
     Alert.alert("Confirm sign out", "Do you really want to sign out?", [
@@ -38,7 +46,7 @@ const ProfileCard = () => {
           fontFamily: "Lato_400Regular",
         }}
       >
-        random@gmail.com
+        {email}
       </Text>
       <Pressable style={styles.buttonPressable} onPress={signOutHandler}>
         <MaterialCommunityIcons
