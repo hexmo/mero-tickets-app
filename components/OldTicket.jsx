@@ -1,10 +1,76 @@
-import { StyleSheet, View, Image } from "react-native";
-import React from "react";
-import { Title, Caption, Text } from "react-native-paper";
+import { StyleSheet, View, Image, Pressable, Alert } from "react-native";
+import { useState } from "react";
+import { Title, Caption, Text, TextInput } from "react-native-paper";
+import { Modal, Portal, Button, Subheading } from "react-native-paper";
+import { AirbnbRating } from "react-native-ratings";
+import { review_present, post_review } from "../services/reviewServices";
 
 const OldTicket = ({ ticket, booking, vehicle }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [rating, setRating] = useState(3);
+  const [review, setReview] = useState("");
+  const [alreadyReviewed, setAlreadyReviewed] = useState(true);
+
+  // handlers
+  const handleReview = () => {
+    Alert.alert(
+      `Review ${vehicle.name}`,
+      "Do you want to rate and review your travel with this transport provider?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Review cancelled."),
+        },
+        {
+          text: "Add Review",
+          onPress: () => {
+            handleReviewModal();
+          },
+        },
+      ]
+    );
+  };
+
+  const handleReviewModal = () => {
+    review_present(vehicle.id)
+      .then((res) => {
+        // Alert.alert("", JSON.stringify(res.data));
+        setAlreadyReviewed(res.data.reviewed);
+
+        if (alreadyReviewed) {
+          Alert.alert("", "You have already reviewed this vehicle.");
+        } else {
+          setModalVisible(true);
+        }
+      })
+      .catch((error) => {
+        Alert.alert("Error", JSON.stringify(error.response));
+      });
+  };
+
+  const handlePostReview = () => {
+    if (review.length < 10) {
+      Alert.alert(
+        "Validation Error",
+        "You should write at least 20 characters for review."
+      );
+
+      return;
+    }
+
+    post_review(vehicle.id, rating, review)
+      .then((res) => {
+        setAlreadyReviewed(true);
+        setModalVisible(false);
+        Alert.alert("Success", "Successfully posted review");
+      })
+      .catch((error) => {
+        Alert.alert("Error", JSON.stringify(error.response));
+      });
+  };
+
   return (
-    <View style={styles.ticket}>
+    <Pressable style={styles.ticket} onPress={handleReview}>
       <View style={styles.tickerDetails}>
         <Title>{vehicle.name}</Title>
         <Caption>
@@ -41,7 +107,39 @@ const OldTicket = ({ ticket, booking, vehicle }) => {
           }}
         />
       </View>
-    </View>
+      <Portal>
+        <Modal
+          visible={modalVisible}
+          onDismiss={() => setModalVisible(false)}
+          contentContainerStyle={styles.containerStyle}
+        >
+          <Subheading>Review your ride</Subheading>
+          <AirbnbRating
+            count={5}
+            defaultRating={rating}
+            onFinishRating={(r) => setRating(r)}
+            size={30}
+            reviewSize={18}
+            selectedColor={"#e44c34"}
+            reviewColor={"#e44c34"}
+          />
+          <TextInput
+            label="Review"
+            mode="outlined"
+            defaultValue={review}
+            onChangeText={(r) => setReview(r)}
+            multiline={true}
+          />
+          <Button
+            style={styles.button}
+            mode="contained"
+            onPress={handlePostReview}
+          >
+            Review
+          </Button>
+        </Modal>
+      </Portal>
+    </Pressable>
   );
 };
 
@@ -58,5 +156,16 @@ const styles = StyleSheet.create({
   },
   tickerDetails: {
     padding: 5,
+  },
+  containerStyle: {
+    backgroundColor: "white",
+    borderRadius: 5,
+    margin: 10,
+    padding: 10,
+  },
+  button: {
+    marginTop: 20,
+    padding: 3,
+    backgroundColor: "red",
   },
 });
