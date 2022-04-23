@@ -14,4 +14,11 @@ const post_review = (vehicle_id, rating, review) =>
     },
   });
 
-export { review_present, post_review };
+const allReviews = (vehicle_id) =>
+  axios.get(`/reviews`, {
+    params: {
+      vehicle_id: vehicle_id,
+    },
+  });
+
+export { review_present, post_review, allReviews };

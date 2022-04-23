@@ -2,8 +2,8 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 
-// const API_URL = "https://mero-tickets.herokuapp.com";
-const API_URL = "http://10.0.2.2:3000/";
+const API_URL = "https://mero-tickets.herokuapp.com";
+// const API_URL = "http://10.0.2.2:3000/";
 // const API_URL = "http://127.0.0.1:3000/";
 
 const instance = axios.create({ baseURL: API_URL });

@@ -4,12 +4,14 @@ import { getVechicleDetails } from "../../services/searchService";
 import { SliderBox } from "react-native-image-slider-box";
 import { Button, Subheading, Title, Paragraph } from "react-native-paper";
 import { Entypo } from "@expo/vector-icons";
+import Review from "../../components/Review";
+import { allReviews } from "../../services/reviewServices";
 
 const BusDetails = ({ route, navigation }) => {
   const { bookingId, vehicleId } = route.params;
-
   const [loading, setLoading] = useState(true);
   const [vehicle, setVehicle] = useState();
+  const [reviews, setReviews] = useState([]);
 
   const handleContinueBooking = () => {
     navigation.navigate("SeatSelector", {
@@ -30,6 +32,16 @@ const BusDetails = ({ route, navigation }) => {
         Alert.alert("Error", JSON.stringify(error.response));
       })
       .finally(() => setLoading(false));
+
+    // get reviews
+    allReviews(vehicleId)
+      .then((res) => {
+        setReviews(res.data);
+        // Alert.alert("Success", JSON.stringify(res.data));
+      })
+      .catch((error) => {
+        Alert.alert("Error", JSON.stringify(error.response));
+      });
   }, []);
 
   if (loading) {
@@ -73,6 +85,13 @@ const BusDetails = ({ route, navigation }) => {
             {vehicle.description}
           </Paragraph>
           {/* <Paragraph>{JSON.stringify(vehicle)}</Paragraph> */}
+        </View>
+        <View style={{ padding: 10 }}>
+          <Text>Reviews</Text>
+
+          {reviews.map((review) => (
+            <Review key={review.id} review={review} />
+          ))}
         </View>
       </ScrollView>
       <Button
