@@ -37,7 +37,7 @@ const OldTicket = ({ ticket, booking, vehicle }) => {
         // Alert.alert("", JSON.stringify(res.data));
         setAlreadyReviewed(res.data.reviewed);
 
-        if (alreadyReviewed) {
+        if (res.data.reviewed) {
           Alert.alert("", "You have already reviewed this vehicle.");
         } else {
           setModalVisible(true);

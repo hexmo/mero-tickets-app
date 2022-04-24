@@ -8,7 +8,7 @@ import ProfileCard from "../../components/ProfileCard";
 const Profile = ({ navigation }) => {
 
   return (
-    <View>
+    <>
       <ProfileCard />
 
       <Card style={styles.card}>
@@ -17,7 +17,7 @@ const Profile = ({ navigation }) => {
         </Text>
       </Card>
       <PreviousBookings />
-    </View>
+    </>
   );
 };
 

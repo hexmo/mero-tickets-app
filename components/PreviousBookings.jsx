@@ -51,7 +51,7 @@ const PreviousBookings = () => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView style={{ marginBottom: 60 }}>
       {purchases.map((purchase) => (
         <OldTicket
           key={purchase.ticket.id}
