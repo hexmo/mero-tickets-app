@@ -1,14 +1,21 @@
-import { StyleSheet, Text, View, Alert, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Alert,
+  ActivityIndicator,
+  ScrollView,
+} from "react-native";
 import React, { useState, useEffect } from "react";
-import Ticket from "../../components/Ticket";
-import { getBookedTickets } from "../../services/bookingServices";
+import OldTicket from "../components/OldTicket";
+import { getExpiredTickets } from "../services/bookingServices";
 
-const Bookings = () => {
+const PreviousBookings = () => {
   const [loading, setLoading] = useState(true);
   const [purchases, setPurchases] = useState([]);
 
   useEffect(() => {
-    getBookedTickets()
+    getExpiredTickets()
       .then((response) => {
         setPurchases(response.data);
         // Alert.alert("Success", JSON.stringify(response.data));
@@ -37,26 +44,26 @@ const Bookings = () => {
             fontFamily: "Lato_400Regular",
           }}
         >
-          You have not purchased any tickets for future travel.
+          You do not have any previous bookings
         </Text>
       </View>
     );
   }
 
   return (
-    <View>
+    <ScrollView>
       {purchases.map((purchase) => (
-        <Ticket
+        <OldTicket
           key={purchase.ticket.id}
           ticket={purchase.ticket}
           booking={purchase.booking}
           vehicle={purchase.vehicle}
         />
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
-export default Bookings;
+export default PreviousBookings;
 
 const styles = StyleSheet.create({});

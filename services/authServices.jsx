@@ -14,4 +14,8 @@ const signUp = (email, password) =>
     password_confirmation: password,
   });
 
-export { login, signUp };
+const signOut = () => axios.delete("/auth/sign_out");
+
+const isLoggedIn = () => axios.get("/auth/validate_token");
+
+export { login, signUp, isLoggedIn, signOut };

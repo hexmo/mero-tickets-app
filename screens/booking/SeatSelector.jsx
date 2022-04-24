@@ -1,20 +1,70 @@
-import { StyleSheet, Text, View, ScrollView, FlatList } from "react-native";
-import React from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  FlatList,
+  Alert,
+} from "react-native";
+import React, { useState, useEffect } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Seat from "../../components/Seat";
 import { Button } from "react-native-paper";
 import SeatExplanation from "../../components/SeatExplanation";
-import { useNavigation } from "@react-navigation/native";
+import { getBookingDetails } from "../../services/searchService";
 
-const SeatSelector = () => {
-  const navigation = useNavigation();
+const SeatSelector = ({ route, navigation }) => {
+  const { bookingId, vehicleId } = route.params;
+
+  const [loading, setLoading] = useState(true);
+  const [booking, setBooking] = useState();
+  const [selectedSeats, setSelectedSeats] = useState([]);
+
+  useEffect(() => {
+    getBookingDetails(bookingId)
+      .then((res) => {
+        setBooking(res.data);
+        // Alert.alert("Success", JSON.stringify(res.data));
+      })
+      .catch((error) => {
+        Alert.alert("Error", JSON.stringify(error));
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  // handlers
+  const goToBooking = () => {
+    if (selectedSeats.length === 0) {
+      Alert.alert("You should first select a seat to continue.");
+      return;
+    }
+
+    navigation.navigate("Booking", {
+      booking,
+      selectedSeats,
+      price: booking.ticket_price * selectedSeats.length,
+    });
+  };
+
+  if (loading) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <FlatList
       style={{ paddingHorizontal: 40 }}
-      data={data}
+      data={booking.seats}
       renderItem={({ item, index, separators }) => (
-        <Seat id={item.id} booked={item.booked} />
+        <Seat
+          id={item.id}
+          booked={item.booked}
+          selectedSeats={selectedSeats}
+          setSelectedSeats={setSelectedSeats}
+        />
       )}
       numColumns={5}
       ListHeaderComponent={() => (
@@ -25,10 +75,28 @@ const SeatSelector = () => {
       ListFooterComponent={() => (
         <View style={{ marginVertical: 20 }}>
           <SeatExplanation />
+          <Text
+            style={{
+              marginVertical: 10,
+              fontSize: 16,
+              fontFamily: "Lato_700Bold",
+            }}
+          >
+            Selected seats: {selectedSeats.join(", ")}
+          </Text>
+          <Text
+            style={{
+              marginVertical: 10,
+              fontSize: 16,
+              fontFamily: "Lato_700Bold",
+            }}
+          >
+            Total price: {booking.ticket_price * selectedSeats.length}
+          </Text>
           <Button
             style={styles.continueButton}
             mode="contained"
-            onPress={() => navigation.navigate("Booking")}
+            onPress={goToBooking}
           >
             Continue
           </Button>
@@ -42,56 +110,8 @@ export default SeatSelector;
 
 const styles = StyleSheet.create({
   continueButton: {
-    marginTop: 20,
+    marginTop: 10,
     borderRadius: 10,
     backgroundColor: "#e44c34",
   },
 });
-
-const data = [
-  { id: "e99" },
-  { id: "e100" },
-  { id: "e1" },
-  { id: "b1", booked: true },
-  { id: "b2", booked: false },
-  { id: "a1", booked: false },
-  { id: "a2", booked: false },
-  { id: "e2" },
-  { id: "b3", booked: false },
-  { id: "b4", booked: false },
-  { id: "a3", booked: false },
-  { id: "a4", booked: false },
-  { id: "e3" },
-  { id: "b5", booked: false },
-  { id: "b6", booked: false },
-  { id: "a5", booked: false },
-  { id: "a6", booked: false },
-  { id: "e5" },
-  { id: "b7", booked: false },
-  { id: "b8", booked: false },
-  { id: "a7", booked: false },
-  { id: "a8", booked: false },
-  { id: "e6" },
-  { id: "b9", booked: false },
-  { id: "b10", booked: false },
-  { id: "a9", booked: false },
-  { id: "a10", booked: false },
-  { id: "e7" },
-  { id: "b11", booked: false },
-  { id: "b12", booked: false },
-  { id: "a11", booked: false },
-  { id: "a12", booked: false },
-  { id: "e8" },
-  { id: "b13", booked: false },
-  { id: "b14", booked: false },
-  { id: "a13", booked: false },
-  { id: "a14", booked: false },
-  { id: "e8" },
-  { id: "b15", booked: false },
-  { id: "b16", booked: false },
-  { id: "a15", booked: false },
-  { id: "a16", booked: false },
-  { id: "a17", booked: false },
-  { id: "b17", booked: false },
-  { id: "b18", booked: false },
-];

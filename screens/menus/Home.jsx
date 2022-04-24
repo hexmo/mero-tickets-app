@@ -18,6 +18,9 @@ export default function Home({ navigation }) {
   let tomorrowsDate = new Date();
   tomorrowsDate.setDate(tomorrowsDate.getDate() + 1);
 
+  let lastDate = new Date();
+  lastDate.setDate(tomorrowsDate.getDate() + 15);
+
   const locations = [
     { key: index++, label: "Kathmandu" },
     { key: index++, label: "Pokhara" },
@@ -101,6 +104,8 @@ export default function Home({ navigation }) {
               mode="date"
               onCancel={hideDatePicker}
               date={tomorrowsDate}
+              minimumDate={tomorrowsDate}
+              maximumDate={lastDate}
             />
           </View>
 
@@ -115,7 +120,7 @@ export default function Home({ navigation }) {
           </Button>
         </Card.Content>
       </Card>
-      <Image style={styles.promotion} source={promotion} resizeMode="cover" />
+      {/* <Image style={styles.promotion} source={promotion} resizeMode="cover" /> */}
     </ScrollView>
   );
 }
@@ -184,3 +189,6 @@ const getFormattedDate = (date) => {
 const getApiDate = (date) => {
   return `2022-${date.getMonth() + 1}-${date.getDate()}`;
 };
+
+// Setting minimum and maximum date
+// https://github.com/react-native-datetimepicker/datetimepicker#minimumdate-optional

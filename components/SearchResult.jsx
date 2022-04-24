@@ -1,12 +1,23 @@
 import { StyleSheet, View } from "react-native";
 import { Card, Title, Caption, Chip } from "react-native-paper";
-import moment from "moment";
 
 import React from "react";
 
-const SearchResult = ({ navigation, name, facility, time, price }) => {
+const SearchResult = ({
+  navigation,
+  bookingId,
+  vehicleId,
+  name,
+  facility,
+  time,
+  price,
+  remaining_seats,
+}) => {
   const handleSeatSelection = () => {
-    navigation.navigate("SeatSelector");
+    navigation.navigate("BusDetails", {
+      bookingId,
+      vehicleId,
+    });
   };
 
   return (
@@ -19,7 +30,7 @@ const SearchResult = ({ navigation, name, facility, time, price }) => {
         <View style={styles.headerView}>
           {/* <Chip icon="progress-clock">{moment(time).format("h:mm a")}</Chip> */}
           <Chip icon="progress-clock">{time.slice(11, 16)}</Chip>
-          <Chip icon="seat-recline-extra">37 seats</Chip>
+          <Chip icon="seat-recline-extra">{remaining_seats} seats</Chip>
           <Chip icon="cash-multiple">Rs {price}/-</Chip>
         </View>
       </Card>

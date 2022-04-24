@@ -32,7 +32,10 @@ const SignUp = ({ navigation }) => {
           // navigation.replace("Login");
         })
         .catch((error) => {
-          Alert.alert("Error", JSON.stringify(error.response.data));
+          Alert.alert(
+            "Error",
+            JSON.stringify(error.response.data.errors.full_messages[0])
+          );
         });
 
       setLoading(false);

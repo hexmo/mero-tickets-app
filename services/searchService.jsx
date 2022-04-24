@@ -9,4 +9,8 @@ const getVehicles = (start_location, end_location, journey_date) =>
     },
   });
 
-export { getVehicles };
+const getVechicleDetails = (id) => axios.get(`/vehicles/${id}`);
+
+const getBookingDetails = (id) => axios.get(`/bookings/${id}`);
+
+export { getVehicles, getVechicleDetails, getBookingDetails };
